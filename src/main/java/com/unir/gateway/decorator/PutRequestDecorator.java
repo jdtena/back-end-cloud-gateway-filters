@@ -18,39 +18,36 @@ import reactor.core.publisher.Flux;
 import java.net.URI;
 
 /**
- * This class is a decorator for the GatewayRequest object for POST requests.
- * It extends the ServerHttpRequestDecorator class and overrides its methods to modify the request.
- * It uses the ObjectMapper to convert the body of the GatewayRequest object into bytes.
+ * Este decorador maneja las peticiones PUT del Gateway.
+ * Extiende ServerHttpRequestDecorator y modifica la petición según sea necesario.
  */
 @Slf4j
-public class PostRequestDecorator extends ServerHttpRequestDecorator {
+public class PutRequestDecorator extends ServerHttpRequestDecorator {
 
     private final GatewayRequest gatewayRequest;
     private final ObjectMapper objectMapper;
 
-    public PostRequestDecorator(GatewayRequest gatewayRequest, ObjectMapper objectMapper) {
+    public PutRequestDecorator(GatewayRequest gatewayRequest, ObjectMapper objectMapper) {
         super(gatewayRequest.getExchange().getRequest());
         this.gatewayRequest = gatewayRequest;
         this.objectMapper = objectMapper;
     }
 
     /**
-     * This method overrides the getMethod method of the ServerHttpRequestDecorator class.
-     * It returns the HTTP method of the request, which is POST.
+     * Sobrescribe el método para devolver PUT como método HTTP.
      *
-     * @return the HTTP method of the request
+     * @return el método HTTP PUT
      */
     @Override
     @NonNull
     public HttpMethod getMethod() {
-        return HttpMethod.POST;
+        return HttpMethod.PUT;
     }
 
     /**
-     * This method overrides the getURI method of the ServerHttpRequestDecorator class.
-     * It returns the URI of the request.
+     * Sobrescribe el método para construir y devolver la URI de la petición.
      *
-     * @return the URI of the request
+     * @return la URI de la petición
      */
     @Override
     @NonNull
@@ -61,10 +58,9 @@ public class PostRequestDecorator extends ServerHttpRequestDecorator {
     }
 
     /**
-     * This method overrides the getHeaders method of the ServerHttpRequestDecorator class.
-     * It returns the headers of the request.
+     * Sobrescribe el método para devolver las cabeceras de la petición.
      *
-     * @return the headers of the request
+     * @return las cabeceras HTTP
      */
     @Override
     @NonNull
@@ -73,10 +69,10 @@ public class PostRequestDecorator extends ServerHttpRequestDecorator {
     }
 
     /**
-     * This method overrides the getBody method of the ServerHttpRequestDecorator class.
-     * It converts the body of the GatewayRequest object into bytes using the ObjectMapper, and returns it as a Flux of DataBuffers.
+     * Sobrescribe el método para manejar el cuerpo de la petición PUT.
+     * Convierte el cuerpo a bytes usando ObjectMapper.
      *
-     * @return a Flux of DataBuffers representing the body of the request
+     * @return un Flux de DataBuffer conteniendo el cuerpo de la petición
      */
     @Override
     @NonNull

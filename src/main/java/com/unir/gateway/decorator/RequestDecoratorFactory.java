@@ -23,7 +23,7 @@ public class RequestDecoratorFactory {
      * It checks the HTTP method of the request and creates a different decorator depending on the method.
      * If the method is GET, it creates a GetRequestDecorator.
      * If the method is POST, it creates a PostRequestDecorator.
-     * If the method is neither GET nor POST, it throws an IllegalArgumentException.
+     * If the method is not GET, POST, PUT, PATCH or DELETE it throws an IllegalArgumentException.
      *
      * @param request the GatewayRequest object to be decorated
      * @return a ServerHttpRequestDecorator that decorates the GatewayRequest object
@@ -33,6 +33,9 @@ public class RequestDecoratorFactory {
             return switch (request.getTargetMethod().name().toUpperCase()) {
                 case "GET" -> new GetRequestDecorator(request);
                 case "POST" -> new PostRequestDecorator(request, objectMapper);
+                case "PUT" -> new PutRequestDecorator(request, objectMapper);
+                case "PATCH" -> new PatchRequestDecorator(request, objectMapper);
+                case "DELETE" -> new DeleteRequestDecorator(request);
                 default -> throw new IllegalArgumentException("Invalid http method");
             };
         }
